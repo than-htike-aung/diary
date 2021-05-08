@@ -1,0 +1,97 @@
+
+import React, { Component } from 'react';
+
+import  { database }  from '../firebase';
+import _ from 'lodash';
+
+class App extends Component{
+
+  constructor(props){
+    super(props);
+
+    //state
+    this.state = {
+      title:' ',
+      body:'',
+      notes: {}
+    };
+
+    //bind
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  // Lifecycle
+  componentDidMount(){
+    database.on('value', (snapshot)=>{
+      this.setState ({notes:snapshot.val()});
+    });
+  }
+
+  // handle change
+  handleChange(e){
+    this.setState({
+      [e.target.name] : e.target.value
+    });
+  }
+
+  //handle submit
+    handleSubmit(e){
+      e.preventDefault();
+      const note = {
+        title: this.state.title,
+        body: this.state.body
+      }
+      database.push(note)
+      console.log('submit');
+    }
+
+    //render notes
+    renderNotes(){
+      return _.map();
+    }
+
+  render(){
+    return (
+      <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-6 col-sm-offset-3">
+              <form onSubmit={this.handleSubmit}>
+                <div className="form-group"> 
+                  <input 
+                      onChange={this.handleChange}
+                      type="text"
+                     name="title" 
+                     className="form-control no-border" 
+                     placeholder="Title..."
+                     required
+                     />
+                </div>
+
+                <div className="form-group"> 
+                  <textarea 
+                      onChange = {this.handleChange}
+                      type="text"
+                     name="body" 
+                     className="form-control no-border" 
+                     placeholder="Body..."
+                     required
+                     />
+                </div>
+
+                <div className="form-group"> 
+                  <button className="btn btn-primary col-sm-12">
+                        Save
+                    </button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+      </div>
+    );
+
+  }
+}
+export default App;
