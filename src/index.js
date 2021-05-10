@@ -4,10 +4,22 @@ import './styles/index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
+// redux
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import notesReducer from './reducers';
+
+//create redux store -> reducers -> 'actions - actionType' | applyMiddleware()
+
+const store = createStore(notesReducer, composeWithDevTools());
+
+//provide the store to react
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Provider store={store}>
+        <App/>
+    </Provider>,
   document.getElementById('root')
 );
 

@@ -19,6 +19,7 @@ class App extends Component{
     //bind
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderNotes = this.renderNotes.bind(this);
   }
 
   // Lifecycle
@@ -48,7 +49,14 @@ class App extends Component{
 
     //render notes
     renderNotes(){
-      return _.map();
+      return _.map(this.state.notes, (note, key) => {
+        return (
+          <div key="key">
+            <h2>{note.title}</h2>
+            <p>{note.body}</p>
+          </div>
+        )
+      });
     }
 
   render(){
@@ -86,7 +94,7 @@ class App extends Component{
                 </div>
 
               </form>
-
+                {this.renderNotes()}
             </div>
           </div>
       </div>
